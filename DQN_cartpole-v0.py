@@ -101,7 +101,8 @@ count = 0
 #env = gym.make(env_name)
 #s = env.reset()
 brain = dqnagent()
-learning_start = 1000
+learning_start = 320
+up = 0
 #env = wrappers.Monitor(brain.env,force=True, '/tmp/cartpole-experiment-1')
 #env = Monitor(env, directory='/tmp/pp',video_callable=False,force=True, write_upon_reset=True)
 if train == True:
@@ -112,6 +113,7 @@ if train == True:
         R = 0
         for piko in range(500):
             R += 1
+            up +=1
 
             a = brain.choose_action(s)
             #print(a)
@@ -129,16 +131,17 @@ if train == True:
             if count > learning_start:
                 brain.learn()
             if d == True or piko == 199:
-                # i am updating my target after every episode you can update it after some no of updation depends upon who problem.
-                brain.update_target_model()
+                #brain.update_target_model()
                 record.append(R)
                 print(i, R)
                 break
+            if up == 500:
+                brain.update_target_model()
         if (i+1) % 50 == 0:
             brain.model_save()
-        #if np.mean(record[-10:0]) == 499:
-            #print('training complete!!!!')
-            #break
+        if np.mean(record[-10:0]) == 499:
+            print('training complete!!!!')
+            break
 else:
     brain.model.load_weights("model_cart.h5")
 record = np.array(record)
