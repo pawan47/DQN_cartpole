@@ -105,7 +105,7 @@ learning_start = 320
 up = 0
 #env = wrappers.Monitor(brain.env,force=True, '/tmp/cartpole-experiment-1')
 #env = Monitor(env, directory='/tmp/pp',video_callable=False,force=True, write_upon_reset=True)
-if train == True:
+if train:
     for i in range(max_ep):
         s = brain.env_re()
         s = np.reshape(s, (1, 4) )
@@ -119,11 +119,11 @@ if train == True:
             #print(a)
             s2, r, d, _ = brain.step(a)
             #print(d)
-            if d == True:
+            if d:
                 s2 = np.zeros((1,4))
             else:
                 s2 = np.reshape(s2, (1, 4))
-            if d == True :
+            if d:
                 r = -50
             brain.add_memory(s,a,r,d,s2)
             s = s2
