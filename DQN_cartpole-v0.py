@@ -65,7 +65,7 @@ class dqnagent():
             st_[i:i+1] = s
             st_2[i:i+1] = s2
             target = r
-            if d == False:
+            if d is False:
                 target = r + self.gamma * np.amax( self.model_t.predict(s2)[0] )
             out[i] = self.model.predict(s)
             out[i][a] = target
@@ -130,7 +130,7 @@ if train:
             count += 1
             if count > learning_start:
                 brain.learn()
-            if d == True or piko == 199:
+            if d or piko == 199:
                 #brain.update_target_model()
                 record.append(R)
                 print(i, R)
